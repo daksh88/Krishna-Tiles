@@ -5,8 +5,26 @@ document.addEventListener('DOMContentLoaded', function() {
   // Mobile menu toggle
   const menuToggle = document.querySelector('.mobile-menu-toggle');
   const navLinks = document.querySelector('nav.nav-links');
-  menuToggle.addEventListener('click', function() {
+  menuToggle.addEventListener('click', function(e) {
+    e.stopPropagation();
     navLinks.classList.toggle('active');
+  });
+
+  // Close menu when clicking outside
+  document.addEventListener('click', function(e) {
+    if (navLinks.classList.contains('active')) {
+      // If click is outside navLinks and not the toggle button
+      if (!navLinks.contains(e.target) && !menuToggle.contains(e.target)) {
+        navLinks.classList.remove('active');
+      }
+    }
+  });
+
+  // Close menu when clicking a link
+  navLinks.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', function() {
+      navLinks.classList.remove('active');
+    });
   });
 
   // Header transparency on scroll
